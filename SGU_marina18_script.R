@@ -8,8 +8,9 @@ biodata <- read_excel("data/marin biologdata 2018.xlsx", guess_max = 100000) %>%
          TOTV = Vikt, TOTL = Totallängdä, ALDR = `Ålder från`) %>% 
   mutate(PROVTAG_DAT2 = as.Date(PROVTAG_DAT2),
          PROVTAG_DAT = as.Date(PROVTAG_DAT),
-         ANTAL_DAGAR = as.numeric(PROVTAG_DAT2-PROVTAG_DAT),
-         ANTAL_DAGAR = ifelse(is.na(ANTAL_DAGAR), 1, ANTAL_DAGAR), 
+         ANTAL_DAGAR = 1,
+         # ANTAL_DAGAR = as.numeric(PROVTAG_DAT2-PROVTAG_DAT),
+         # ANTAL_DAGAR = ifelse(is.na(ANTAL_DAGAR), 1, ANTAL_DAGAR), 
          KON = case_when(Katalog == "Ägg" ~ "I",
                          Katalog == "Mussla" ~ "H",
                          Kön == "Hane" ~ "M",
@@ -22,8 +23,8 @@ biodata <- read_excel("data/marin biologdata 2018.xlsx", guess_max = 100000) %>%
   mutate(PROVTAG_DAT = ifelse(PROV_KOD_ORIGINAL %in% c("C2018/04029", "C2018/04030", "C2018/04031", "C2018/04032", 
                                                        "C2018/04033", "C2018/04034", "C2018/04035", "C2018/04036", "C2018/04037", 
                                                        "C2018/04038", "C2018/04039", "C2018/04040"),
-                              as.Date("2018-10-01"),
-                              PROVTAG_DAT))
+                              "2018-10-01",
+                              as.character(PROVTAG_DAT)))
 
 
 
@@ -36,7 +37,7 @@ hg <- moc_read_lab("data/Hg_marina 2019_2018 prover.xlsm")
 pah <- moc_read_lab("data/IVL PAHs_marina 2019_2018 prover.xlsm")
 tennorganiska <- moc_read_lab("data/IVL Tennorganiska_marina 2019_2018 prover_RA.xlsm")
 pfas <- moc_read_lab("data/PFASs_marina 2019_2018 prover.xlsm")
-sia <- moc_read_lab("data/SI_marina 2019_2018 prover.xlsm", negative_for_nondetect = FALSE)
+sia <- moc_read_lab("data/SI_marina 2019_2018 prover_MS added TPRC 200508.xlsm", negative_for_nondetect = FALSE)
 
 analysdata <- bind_rows(metaller, 
                         bromerade, 
